@@ -1,0 +1,50 @@
+<div id="content">
+    <div id="firstHalf">
+        <div id="images">
+            <img src="../../assets/alhambra.jpg" style="width: 75%;"/>
+        </div>
+        <div id="main">
+            <h2><b>{{ game?.titul_polozky! }}</b></h2>
+            <p>{{ game?.kratky_popis! }}</p>
+            <div id="attributes">
+                <div class="items">
+                    <kendo-icon name="clock"></kendo-icon>
+                    Herní doba
+                    <p style="color: #0088BF;">
+                        {{ game?.delka_hry}}
+                    </p>
+                </div>
+                <div class="items">
+                    <kendo-icon name="myspace"></kendo-icon>
+                    Věk
+                    <p style="color: #0088BF;">
+                        {{ game?.vek_hracu}}
+                    </p>
+                </div>
+                <div class="items">
+                    <kendo-icon name="user"></kendo-icon>
+                    Počet hráčů
+                    <p style="color: #0088BF;">
+                    {{ game?.pocet_hracu}}
+                    </p>
+                </div>
+            </div>
+            <div id="pricing">
+                <p><b>Půjčovné</b> (Út-Pá/Pá-Út/Týden): 
+                    {{ rents?.pujcovne_pidi }}/{{ rents?.pujcovne_medi }}/{{ rents?.pujcovne_maxi }} Kč</p>
+                <p><b>Vratná záloha:</b> {{ game?.pujcovna_zaloha}} Kč </p>
+            </div>
+            <button class="material-button success">
+                <kendo-icon name="shopping-cart"></kendo-icon>
+                Přidat do košíku
+            </button>
+        </div>
+    </div>
+    <div id="secondHalf">
+        <p><b>Popis hry:</b></p> 
+        {{ game?.popis }}
+        <p><b>Přehled komponent:</b></p>
+        {{ game?.prehled_komponent }}
+        <a [href]="game?.odkaz_web_herni">Odkaz na boardgamegeek</a>
+    </div>
+</div>

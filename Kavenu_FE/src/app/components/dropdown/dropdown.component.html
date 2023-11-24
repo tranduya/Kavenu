@@ -1,0 +1,6 @@
+<kendo-label [text]="label" *ngIf="type === 'combo'">
+    <kendo-combobox [data]="data" (valueChange)="selectValue($event)" (ngModel)="defaultValue"></kendo-combobox>
+</kendo-label>
+<kendo-label [text]="label" *ngIf="type === 'list'">
+    <kendo-dropdownlist [data]="data" (valueChange)="selectValue($event)" (ngModel)="defaultValue"></kendo-dropdownlist>
+</kendo-label>

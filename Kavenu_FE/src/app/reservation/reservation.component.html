@@ -1,0 +1,137 @@
+<page-header title="Rezervace her" />
+<div class="stepper-container" [hidden]="isReservationCompleted">
+  <kendo-stepper [steps]="steps" stepType="full" [(currentStep)]="currentStep" (currentStepChange)="(false)"
+    [linear]="true" style="padding-bottom: 1cm">
+  </kendo-stepper>
+  <!-- 1.krok -->
+  <div class="step" [class.active]="currentStep === 0">
+    <div>
+      <table>
+        <tr>
+          <td>Rezervovat od:</td>
+          <td>
+            <input id="date" class="dateFrom" type="date" [(ngModel)]="startDateString" [min]="today" [max]="endDateString"/>
+          </td>
+        </tr>
+        <tr>
+          <td>Rezervovat do:</td>
+          <td>
+            <input id="date" class="dateTo" type="date" [(ngModel)]="endDateString" [min]="startDateString" />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <p id="info">Rezervace je umožněna jen přihlášeným uživatelům. Pokud si budete chtít rezervovat hry, přihlašte se prosím.</p>
+    </div>
+  </div>
+  <!-- 2.krok -->
+  <div class="step" [class.active]="currentStep === 1">
+    <div>
+      <p><b>Rezervované období: </b>{{ startDatePrint }} - {{ endDatePrint }}</p>
+    </div>
+    <!-- <div id="filter" class="filter">
+      <dropdown label="Doporučený věk" [data]="ageList" (valueChangeEvent)="filterGames($event, 'age')"></dropdown>
+      <dropdown label="Počet hráčů" [data]="playersNumberList" (valueChangeEvent)="filterGames($event, 'playerNumber')"></dropdown>
+      <dropdown label="Herní doba" [data]="gameDurationList" (valueChangeEvent)="filterGames($event, 'duration')"></dropdown>
+    </div> -->
+    <div>
+      <kendo-grid [data]="filtredGames" [kendoGridBinding]="filtredGames" [pageable]="false" [sortable]="true" [filterable]="true"
+        [selectable]="false" [height]="300">
+        <kendo-grid-column class="titul_polozky" field="titul_polozky" title="Název hry" [width]="90">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+            </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pujcovne" title="Půjčovné" [width]="30" [filterable]="false"></kendo-grid-column>
+        <kendo-grid-column field="pujcovna_zaloha" title="Záloha" [width]="30" [filterable]="false"></kendo-grid-column>
+        <kendo-grid-column field="pujcenoOd" title="Výpůjční období" [width]="40" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div style="margin: 0;" [hidden]="dataItem.pujcenoOd == undefined">
+              {{ dataItem.pujcenoOd }} - {{ dataItem.pujcenoDo }} 
+            </div>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-date-filter-cell [column]="column" [filter]="filter" operator="contains"
+              [showOperators]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            </kendo-grid-date-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-command-column class="kendo-actions" title="Akce" [width]="35" ú>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [hidden]="dataItem.pujcenoOd == undefined">
+              <p id="actionLabel">Nelze rezervovat</p>
+            </div>
+            <div class="user-buttons" [hidden]="dataItem.pujcenoOd != undefined">
+              <button class="material-button default" hidden>
+                <kendo-icon name="eye"></kendo-icon>
+              </button>
+              <button class="material-button success" (click)="handleClickAddToCart(dataItem)"
+                *ngIf="!isSelected(dataItem)">
+                <kendo-icon name="shopping-cart"></kendo-icon>
+              </button>
+              <button class="material-button error" (click)="handleClickRemoveFromCart(dataItem)"
+                *ngIf="isSelected(dataItem)">
+                <kendo-icon name="cancel"></kendo-icon>
+              </button>
+            </div>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </div>
+    <kendo-window title="Přihlašte se prosím" *ngIf="loginWindowOpened" (close)="closeRegistrationWindow()" [top]="300"
+      [width]="450" [height]="450" [resizable]="false" autoFocusedElement="#username" themeColor="primary">
+      <app-login></app-login>
+    </kendo-window>
+  </div>
+  <!-- 3.krok -->
+  <div class="step" [class.active]="currentStep === 2">
+    <div>
+      <p><b>Rezervované období: </b>{{ startDatePrint }} - {{ endDatePrint }}</p>
+    </div>
+    <div>
+      <kendo-grid
+        [data]="selectedGames"
+        [pageable]="false"
+        [sortable]="true"
+        [filterable]="false"
+        [selectable]="false"
+        [height]="250"
+      >
+        <kendo-grid-column field="titul_polozky" title="Název hry" [width]="100">
+          <ng-template kendoGridFooterTemplate >
+            Celkem:
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pujcovne" title="Půjčovné" [width]="30" [filterable]="false">
+          <ng-template kendoGridFooterTemplate >
+            {{ cenaTotal }}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pujcovna_zaloha" title="Záloha" [width]="30" [filterable]="false">
+          <ng-template kendoGridFooterTemplate >
+              {{ zalohaTotal}}
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    </div>
+  </div>
+  <div class="buttons-container">
+    <div class="left-components">
+      <button class="material-button default" *ngIf="showButtonPrevious" (click)="prevStep()">Zpět</button>
+    </div>
+    <div class="right-components">
+      <button class="material-button default" *ngIf="showButtonNext" (click)="nextStep()">
+        Pokračovat >
+      </button>
+      <button class="material-button success" *ngIf="showButtonComplete" (click)="handleClickSend()">Dokončit</button>
+    </div>
+  </div>
+</div>
+<div [hidden]="!isReservationCompleted">
+  <p>Děkujeme za rezervaci. Všechny rezervace najdete v sekci <i>Přehled vypůjček</i>, kde je můžete upravovat,
+     sledovat jejich stav, případně je stornovat.</p>
+  <p style="color: red;"><b>UPOZORNĚNÍ: Stav vypůjčky se může změnit i pokud je ve stavu <i>Schválená</i> nebo <i>Zamítnutá</i>.</b></p>
+</div>

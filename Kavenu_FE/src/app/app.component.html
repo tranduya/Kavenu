@@ -1,0 +1,49 @@
+<header>
+  <div class="header">
+    <div class="left">
+      <div class="burger-menu" id="burger-menu" (click)="drawer.toggle()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <span><a href="" class="title">Rezervační systém Kavenu</a></span>
+    </div>
+    <div class="right">
+      <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        <p>{{ username }}</p>
+        <button class="loginBttn" (click)="handleClickLogout()">
+          <kendo-icon name="logout"></kendo-icon>
+        </button>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <p>nepřihlášen</p>
+        <button class="loginBttn" (click)="handleClickLogIn()">
+          <kendo-icon name="login"></kendo-icon>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+  <kendo-window title="Přihlášení" *ngIf="loginWindowOpened" (close)="closeRegistrationWindow()" [top]="200"
+      [width]="450" [height]="450" [resizable]="false" autoFocusedElement="#username" themeColor="primary">
+      <app-login></app-login>
+    </kendo-window>
+</header>
+<body>
+  <kendo-drawer-container>
+    <kendo-drawer #drawer mode="push" [autoCollapse]="sidebarAutoCollapse" [(expanded)]="sidebarExpanded"
+      [items]="sidebarItems" (select)="onSidebarSelect($event)">
+      <ng-template kendoDrawerItemTemplate let-item>
+        <div class="drawer-item" *ngIf="item.path">
+          <span class="drawer-item" *ngIf="sidebarExpanded">{{ item.text }}</span>
+        </div>
+        <div class="drawer-item" *ngIf="!item.path">
+          <span class="drawer-item">{{ item.text }}</span>
+        </div>
+      </ng-template>
+    </kendo-drawer>
+    <!-- Hlavní stránka -->
+    <div class="window-content">
+      <router-outlet></router-outlet>
+    </div>
+  </kendo-drawer-container>
+</body>

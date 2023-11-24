@@ -1,0 +1,59 @@
+
+<div *ngIf="!isAuthorizated">
+    <app-no-access></app-no-access>
+</div>
+<div [hidden]="!isAuthorizated">
+    <page-header title="Založení uživatele" />
+    <div id="content">
+        <form>
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td class="td">Přezdívka</td>
+                        <td class="td"><input type="text" id="nickname" name="nickname" [(ngModel)]="form.nickname"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Jméno</td>
+                        <td class="td"><input type="text" id="name" name="name" [(ngModel)]="form.name" /><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Příjmení</td>
+                        <td class="td"><input type="text" id="surname" name="surname" [(ngModel)]="form.surname"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Heslo</td>
+                        <td class="td"><input type="password" id="pwd" name="pwd" [(ngModel)]="form.pwd"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Potvrzení hesla</td>
+                        <td class="td"><input type="password" id="confirmPwd" name="confirmPwd" [(ngModel)]="form.confirmPwd"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Emailová adresa</td>
+                        <td class="td"><input type="text" id="email" name="email" [(ngModel)]="form.email"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Telefonní číslo</td>
+                        <td class="td"><input type="number" id="telphone" name="telephone" [(ngModel)]="form.telephone"/><br /></td>
+                    </tr>
+                    <tr>
+                        <td class="td">Role</td>
+                        <td class="td">
+                            <select [(ngModel)]="form.selectedRole" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let role of roles" [value]="role.role_id">
+                                    {{ role.popis_role }}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="control-buttons">
+                <button class="material-button success" type="submit" (click)="handleClickSaveUser()">Uložit</button>
+                <input type="reset" class="material-button default" value="Vymazat formulář" />
+                <a routerLink=".." class="material-button default">Zrušit</a>
+            </div>
+        </form>
+    </div>
+</div>

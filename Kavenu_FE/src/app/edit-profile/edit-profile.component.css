@@ -1,0 +1,22 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1cm;
+}
+
+#content {
+    padding: 10px;
+}
+
+.td {
+    padding: 8px;
+    text-align: left;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification {
+    padding: 6px;
+    min-width: 1em;
+    font-size: 16px;
+}

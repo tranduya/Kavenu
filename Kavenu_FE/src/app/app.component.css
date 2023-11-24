@@ -1,0 +1,99 @@
+app-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 24px;
+  margin-left: 0.5rem;
+}
+
+kendo-drawer {
+  /* margin-top: 68px; */
+  height: 100vh;
+}
+
+.drawer-item {
+  width: 100%;
+  padding-left: 8px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.window-content {
+  width: 100%;
+}
+
+kendo-drawer-content {
+  padding: 0 50px 30px 50px;
+  height: 100%;
+}
+
+kendo-drawer-container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 68px);
+}
+
+.loginBttn {
+background-color: #50b125;
+color: white;
+cursor: pointer;
+border: none;
+padding: 0;
+}
+
+a{
+  text-decoration: none;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  justify-self: end;
+  gap: 10px;
+  margin-right: 10px;
+  justify-items: center;
+}
+
+.custom-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 5px;
+  font-size: 16px;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-size: 16px;
+}

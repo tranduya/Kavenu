@@ -1,0 +1,21 @@
+<div class="login-page">
+  <div class="form">
+    <div class="register-form" *ngIf="!isRegistred">
+      <input type="text" placeholder="Uživatelské jméno" [(ngModel)]="form.nickname" (keyup.enter)="register()"/>
+      <input type="text" placeholder="Jméno" [(ngModel)]="form.name" (keyup.enter)="register()"/>
+      <input type="text" placeholder="Příjmení" [(ngModel)]="form.surname" (keyup.enter)="register()"/>
+      <input type="password" placeholder="Heslo" [(ngModel)]="form.password" (keyup.enter)="register()"/>
+      <input type="password" placeholder="Potvrzení hesla" [(ngModel)]="form.confirmPwd" (keyup.enter)="register()"/>
+      <input type="email" placeholder="Emailová adresa" [(ngModel)]="form.email" (keyup.enter)="register()"/>
+      <input type="number" placeholder="Telefonní číslo" [(ngModel)]="form.telephone" (keyup.enter)="register()"/>
+      <button type="button" (click)="register()">Registrovat</button>
+      <p class="message">Máš už účet? <a class="toggle" (click)="toggleForm()">Přihlaš se</a></p>
+    </div>
+    <div class="login-form" [hidden]="!isRegistred">
+      <input id="username" type="text" placeholder="Uživatelské jméno" [(ngModel)]="form.nickname" (keyup.enter)="logIn()"/>
+      <input id="pwd" type="password" placeholder="Heslo" [(ngModel)]="form.password" (keyup.enter)="logIn()"/>
+      <button type="button" (click)="logIn()">Přihlásit</button>
+      <p class="message">Nemáš účet? <a class="toggle" (click)="toggleForm()">Registruj se</a></p>
+    </div>
+  </div>
+</div>

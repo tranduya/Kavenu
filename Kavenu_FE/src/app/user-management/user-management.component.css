@@ -1,0 +1,9 @@
+.user-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#addUserBttn {
+    padding-top: 10px;
+}

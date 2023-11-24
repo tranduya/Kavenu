@@ -1,0 +1,129 @@
+.k-stepper .k-step-label .k-step-text {
+  text-overflow: unset !important;
+  max-width: 10em !important;
+}
+
+
+
+$kendo-color-primary: #4caf50;
+$color-header: #50b125;
+$kendo-selected-bg: #4caf50;
+$kendo-link-text: #4caf50;
+$kendo-series-a: #4caf50;
+// @import "@progress/kendo-theme-default/scss/all";
+@import '@progress/kendo-theme-default/dist/default-green.scss';
+
+html,
+body {
+  height: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+header {
+  padding: 8px;
+  color: white;
+  background-color: $color-header;
+}
+
+.content {
+  padding: 1em;
+  max-height: calc(100vh - 100px);
+}
+
+.burger-menu {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6.5px;
+  justify-content: space-between;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.bar {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.burger-menu:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.burger-menu.active .bar:nth-child(1) {
+  transform: rotate(-45deg) translate(-2px, 3px);
+}
+
+.burger-menu.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-menu.active .bar:nth-child(3) {
+  transform: rotate(45deg) translate(-2px, -3px);
+}
+
+.control-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Basic Material Design button styles */
+.material-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+/* Default (Light Gray) button */
+.material-button.default {
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+/* Disabled button */
+.material-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success button */
+.material-button.success {
+  background-color: #53b827;
+  color: #fff;
+}
+
+/* Error button */
+.material-button.error {
+  background-color: #e95050;
+  color: #fff;
+}
+
+/* Hover effect for all buttons */
+.material-button:hover {
+  background-color: #dadada;
+}
+
+/* Hover effect for Success button */
+.material-button.success:hover {
+  background-color: #47a120;
+}
+
+/* Hover effect for Error button */
+.material-button.error:hover {
+  background-color: #d32f2f;
+}
+

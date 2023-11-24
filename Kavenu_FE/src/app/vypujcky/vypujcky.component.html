@@ -1,0 +1,101 @@
+<div *ngIf="!isAuthorizated">
+  <app-no-access></app-no-access>
+</div>
+<div [hidden]="!isAuthorizated">
+  <page-header title="Vypůjčené hry" />
+    <div class="content">
+      <kendo-grid
+        [data]="vypujcky"
+        [kendoGridBinding]="vypujcky"
+        [pageable]="false"
+        [sortable]="true"
+        [filterable]="true"
+        [selectable]="false"
+        [height]="450"
+        (edit)="editHandler($event)"
+        (cancel)="cancelHandler($event)"
+        (save)="saveHandler($event)"
+      >
+        <kendo-grid-column field="nazevPolozky" title="Název hry" [width]="75">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+            </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="cena_vypujcky" title="Půjčovné" [width]="30" [filterable]="false">
+        </kendo-grid-column>
+        <kendo-grid-column field="cena_zalohy" title="Záloha" [width]="30" [filterable]="false">
+        </kendo-grid-column>
+        <kendo-grid-column field="stav" title="Stav vypůjčky" [width]="30">
+          <ng-template kendoGridCellTemplate let-vypujcka>
+            <div *ngIf="vypujcka.stav_id === 1" class="badge info">
+              <p class="textWhite">Evidovaná</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 2" class="badge warning">
+              <p class="textSize">Zpracovávaná</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 3" class="badge success">
+              <p class="textWhite">Schválená</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 4"class="badge error">
+              <p class="textWhite">Zamítnutá</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 5"class="badge error">
+              <p class="textWhite">Storno</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 6" class="badge outdated">
+              <p>Uzavřená</p>
+            </div>
+            <div *ngIf="vypujcka.stav_id === 7" class="badge rented">
+              <p class="textWhite">Půjčeno</p>
+            </div>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter>
+            <dropdown-filter [filter]="filter" [data]="stavy" textField="nazev_stavu" valueField="stav_id">
+            </dropdown-filter>
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="datZapujceni" title="Půjčeno od" [width]="50" [filterable]="false" 
+          editor="date">
+        </kendo-grid-column>
+        <kendo-grid-column field="datNavraceni" title="Půjčeno do" [width]="50" [filterable]="false" 
+          editor="date">
+        </kendo-grid-column>
+        <kendo-grid-command-column class="kendo-actions" title="Akce" [width]="35">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="user-buttons" [hidden]="dataItem.stav_id == 4 || dataItem.stav_id == 5
+            || dataItem.stav_id == 6">
+              <button kendoGridEditCommand class="material-button default" [hidden]="editable">
+                <kendo-icon name="edit"></kendo-icon>
+              </button>
+              <button class="material-button error" (click)="handleClickStorno(dataItem)"
+              [hidden]="dataItem.stav_id == 7  || editable">
+                  <kendo-icon name="cancel"></kendo-icon>
+                </button>
+                <button kendoGridSaveCommand class="material-button success" [disabled]="!editable">
+                  <kendo-icon name="save"></kendo-icon>
+                </button>
+                <button kendoGridCancelCommand class="material-button default" [disabled]="!editable">
+                  <kendo-icon name="cancel"></kendo-icon>
+              </button>
+            </div>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+      <kendo-dialog
+          *ngIf="dialogOpened"
+          [minWidth]="250"
+          [width]="450"
+          >
+          <p style="margin: 30px; text-align: center;">
+              Opravdu chcete stornovat tuto vypůjčku? Tuto akci nelze vrátit zpět.
+          </p>
+          <kendo-dialog-actions>
+              <button kendoButton class="material-button error" (click)="handleClickDialog('yes')" themeColor="primary">
+                  Ano
+              </button>
+              <button kendoButton class="material-button default" (click)="handleClickDialog('no')">Ne</button>
+          </kendo-dialog-actions>
+      </kendo-dialog>
+    </div>
+</div>

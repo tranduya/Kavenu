@@ -1,0 +1,105 @@
+<div *ngIf="!isAuthorizated">
+  <app-no-access></app-no-access>
+</div>
+<div [hidden]="!isAuthorizated">
+  <page-header title="Přehled požadavků rezervací" />
+    <div class="content">
+      <kendo-grid
+        [data]="vypujcky"
+        [kendoGridBinding]="vypujcky"
+        [pageable]="false"
+        [sortable]="true"
+        [filterable]="true"
+        [selectable]="false"
+        [height]="450"
+        (edit)="editHandler($event)"
+        (cancel)="cancelHandler($event)"
+        (save)="saveHandler($event)"
+      >
+        <kendo-grid-column field="nazevPolozky" title="Název hry" [width]="60">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+            </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="osoba" title="Zákazník" [width]="30">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+              </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="resitel" title="Řešitel" [width]="30">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+              </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="stav" title="Stav vypůjčky" [width]="30">
+          <ng-template kendoGridCellTemplate let-pozadavek>
+            <div *ngIf="pozadavek.stav_id === 1" class="badge info">
+              <p class="textWhite">Evidovaná</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 2" class="badge warning">
+              <p class="textSize">Zpracovávaná</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 3" class="badge success">
+              <p class="textWhite">Schválená</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 4"class="badge error">
+              <p class="textWhite">Zamítnutá</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 5"class="badge error">
+              <p class="textWhite">Storno</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 6" class="badge outdated">
+              <p>Uzavřená</p>
+            </div>
+            <div *ngIf="pozadavek.stav_id === 7" class="badge rented">
+              <p class="textWhite">Půjčeno</p>
+            </div>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter>
+              <dropdown-filter [filter]="filter" [data]="stavy" textField="nazev_stavu" valueField="stav_id">
+              </dropdown-filter>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="datZapujceni" title="Půjčeno od" [width]="35" [filterable]="false" 
+          editor="date">
+        </kendo-grid-column>
+        <kendo-grid-column field="datNavraceni" title="Půjčeno do" [width]="35" [filterable]="false" 
+          editor="date">
+        </kendo-grid-column>
+        <kendo-grid-column field="datVraceno" title="Vráceno" [width]="25" [filterable]="false">
+        </kendo-grid-column>
+        <kendo-grid-command-column class="kendo-actions" title="Akce" [width]="45">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="user-buttons" [hidden]="dataItem.stav_id == 5 || dataItem.stav_id == 6
+                || (dataItem.stav_id != 1 && dataItem.resi_osoba_id != activeUser?.osoba_id)">
+                <button class="material-button default" (click)="handleClickChangeState(dataItem, 2)"
+                  [hidden]="editable || dataItem.stav_id != 1">
+                  <kendo-icon name="hand"></kendo-icon>
+                </button>
+                <button class="material-button success" (click)="handleClickChangeState(dataItem, 3)"
+                  [hidden]="editable || dataItem.stav_id == 1">
+                  <kendo-icon name="check"></kendo-icon>
+                </button>
+                <button kendoGridEditCommand class="material-button default"
+                  [hidden]="editable || dataItem.stav_id == 1">
+                  <kendo-icon name="edit"></kendo-icon>
+                </button>
+                <button class="material-button error" (click)="handleClickChangeState(dataItem, 4)"
+                  [hidden]="editable || dataItem.stav_id == 1">
+                  <kendo-icon name="close"></kendo-icon>
+                </button>
+                <button kendoGridSaveCommand class="material-button success" [disabled]="!editable">
+                  <kendo-icon name="save"></kendo-icon>
+                </button>
+                <button kendoGridCancelCommand class="material-button default" [disabled]="!editable">
+                  <kendo-icon name="cancel"></kendo-icon>
+                </button>
+              </div>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div *ngIf="!isAuthorizated">
+    <app-no-access></app-no-access>
+</div>
+<div [hidden]="!isAuthorizated">
+    <page-header title="Správa uživatelů" />
+    <div class="content">
+        <kendo-grid 
+        [data]="users"
+        [kendoGridBinding]="users"
+        [pageable]="false" 
+        [sortable]="true" 
+        [filterable]="true" 
+        [selectable]="false" [height]="450">
+            <kendo-grid-column field="jmeno" title="Jméno a příjmení" [width]="30">
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                    <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+                    </kendo-grid-string-filter-cell>
+                </ng-template>
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.jmeno}} {{dataItem.prijmeni}}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="prezdivka" title="Přezdívka" [width]="30" [filterable]="false">
+            </kendo-grid-column>
+            <kendo-grid-column field="telefon" title="Telefon" [width]="30" [filterable]="false">
+            </kendo-grid-column>
+            <kendo-grid-column field="email" title="Email" [width]="30" [filterable]="false">
+            </kendo-grid-column>
+            <kendo-grid-column field="role" title="Role" [width]="30" [filterable]="false">
+            </kendo-grid-column>
+            <kendo-grid-command-column class="kendo-actions" title="Akce" [width]="35">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div class="user-buttons">
+                        <button class="material-button default" (click)="handleClickEditUser(dataItem)">
+                            <kendo-icon name="edit"></kendo-icon>
+                        </button>
+                        <button class="material-button error" (click)="handleClickDeleteUser(dataItem)">
+                            <kendo-icon name="trash"></kendo-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </kendo-grid-command-column>
+        </kendo-grid>
+        <kendo-dialog
+            *ngIf="dialogOpened"
+            [minWidth]="250"
+            [width]="450"
+            >
+            <p style="margin: 30px; text-align: center;">
+                Opravdu chcete odstranit uživatele {{selectedUser?.jmeno}} {{selectedUser?.prijmeni}}?
+            </p>
+            <kendo-dialog-actions>
+                <button kendoButton class="material-button error" (click)="handleClickDialog('yes')" themeColor="primary">
+                    Ano
+                </button>
+                <button kendoButton class="material-button default" (click)="handleClickDialog('no')">Ne</button>
+            </kendo-dialog-actions>
+        </kendo-dialog>
+        <div id="addUserBttn">
+            <button class="material-button success" routerLink="novy_uzivatel">Nový uživatel</button>
+        </div>
+    </div>
+</div>
