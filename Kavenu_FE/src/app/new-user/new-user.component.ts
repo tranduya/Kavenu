@@ -60,6 +60,11 @@ export class NewUserComponent {
       return false;
     }
 
+    if (this.form.telephone < 0) {
+      showNotification('Telefonní číslo nemůže mít zápornou hodnotu!', 'error', this.notificationService);
+      return false;
+    }
+
     if (
       this.form.nickname == null ||
       this.form.name == null ||

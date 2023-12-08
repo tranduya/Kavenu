@@ -58,16 +58,16 @@ export class LoginComponent {
       }
     });
   }
-
+  
   /***********Registration section*************/
   onCreateUser(user: User): void {
     this.userService.createUser(user).subscribe({
       next: () => {
-        this.router.navigateByUrl('/rezervace').then(function() {
-          window.location.reload();
-        });
+        this.toggleForm();
+        showNotification("Registrace proběhla úspěšně. Můžete se přihlásit.", "success", this.notificationService);
       },
       error: err => {
+        showNotification("Něco se pokazilo. Zkuste se znovu zaregistrovat.", "error", this.notificationService);
       }
     })
   }

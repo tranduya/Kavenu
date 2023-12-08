@@ -20,7 +20,11 @@
                     {{dataItem.jmeno}} {{dataItem.prijmeni}}
                 </ng-template>
             </kendo-grid-column>
-            <kendo-grid-column field="prezdivka" title="Přezdívka" [width]="30" [filterable]="false">
+            <kendo-grid-column field="prezdivka" title="Přezdívka" [width]="30">
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                    <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+                    </kendo-grid-string-filter-cell>
+                </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="telefon" title="Telefon" [width]="30" [filterable]="false">
             </kendo-grid-column>
