@@ -100,7 +100,13 @@ function specifyDataType($keyName, $userId, $db, $userPwd)
         $roles = $db->getAllRoles();
         $resultData = createRoleTemplate($roles);
     } elseif ($keyName == 'auth') {
-        $user = $db->getUserNickAndPwd($userId, $userPwd);
+        $user = $db->getUserNickAndPwd($userId);
+        $oneUser = $user[0];
+        //authorization
+        if (!password_verify($userPwd, $oneUser["heslo"])) {
+            return [];
+        }
+
         $resultData = createUserTemplate($user);
     } else if ($keyName == 'borrows') {
         $vypujcky = $db->getAllUserBorrows($userId);
@@ -135,7 +141,7 @@ function addUser($data, $db) {
     $prezdivka = $data->prezdivka;
     $telefon = $data->telefon;
     $email = $data->email;
-    $heslo = $data->heslo;
+    $heslo = password_hash($data->heslo, PASSWORD_BCRYPT);
     $role_id = $data->role_id;
     
     $db->addNewUser($jmeno, $prijmeni, $prezdivka, $telefon, $email, $heslo, $role_id);
@@ -180,7 +186,7 @@ function updateUser($data, $db) {
     $prezdivka = $data->prezdivka;
     $telefon = $data->telefon;
     $email = $data->email;
-    $heslo = $data->heslo;
+    $heslo = password_hash($data->heslo, PASSWORD_BCRYPT);
     $role_id = $data->role_id;
     
     $db->updateUser($osoba_id, $jmeno, $prijmeni, $prezdivka, $telefon, $email, $heslo, $role_id);

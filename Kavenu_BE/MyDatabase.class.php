@@ -186,9 +186,9 @@ class MyDatabase
         return $this->selectFromTable(TABLE_UZIVATEL, $fromStatement, $whereStatement);
     }
 
-    public function getUserNickAndPwd($prezdivka, $heslo){
+    public function getUserNickAndPwd($prezdivka){
         $fromStatement = "osoba_id, jmeno, prijmeni, prezdivka, heslo, telefon, email, role_id";
-        $whereStatement = "`osoba`.`prezdivka`='$prezdivka' AND `osoba`.`heslo`='$heslo'";
+        $whereStatement = "`osoba`.`prezdivka`='$prezdivka'";
         return $this->selectFromTable(TABLE_UZIVATEL, $fromStatement, $whereStatement);
     }
 
@@ -207,13 +207,15 @@ class MyDatabase
         $fromStatement = "vypujcka_id, polozka_id, objednava_osoba_id, resi_osoba_id, stav_id, dat_zapujceni,
         dat_navraceni_plan, dat_navraceni, cena_zalohy, cena_vypujcky";
         $whereStatement = "`vypujcka`.`objednava_osoba_id`=$id";
-        return $this->selectFromTable(TABLE_VYPUJCKA, $fromStatement, $whereStatement);
+        $orderByStatement = "`vypujcka`.`vypujcka_id` DESC";
+        return $this->selectFromTable(TABLE_VYPUJCKA, $fromStatement, $whereStatement, $orderByStatement);
     }
 
     public function getAllBorrows() {
         $fromStatement = "vypujcka_id, polozka_id, objednava_osoba_id, resi_osoba_id, stav_id, dat_zapujceni,
         dat_navraceni_plan, dat_navraceni, cena_zalohy, cena_vypujcky";
-        return $this->selectFromTable(TABLE_VYPUJCKA, $fromStatement);
+        $orderByStatement = "`vypujcka`.`vypujcka_id` DESC";
+        return $this->selectFromTable(TABLE_VYPUJCKA, $fromStatement, "", $orderByStatement);
     }
 
     public function getBorrowsBasicInfo() {
